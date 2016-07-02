@@ -15,11 +15,22 @@ class PhysicEngine {
   }
 
   void _nextBulletPosition(Bullet b, Duration timeBudget) {
-    b.x += b.speed * timeBudget.inMilliseconds * cos(b.angle);
-    b.y += b.speed * timeBudget.inMilliseconds * sin(b.angle);
-    // we slightly alter the bullet angle. we are using a gaussian function
-    b.angle += exp(-pow((3 * b.speed - 3.5), 2)) / 10;
-    // we slightly alter the bullet speed. we are using a linear function
-    b.speed -= (b.speed - 0.1) / 90;
+    if (_isBulletOutside(b)) {
+      print('bullet outside');
+    } else {
+      b.position = new Point<int>(
+          (b.position.x + b.speed * timeBudget.inMilliseconds * cos(b.angle))
+              .toInt(),
+          (b.position.y + b.speed * timeBudget.inMilliseconds * sin(b.angle))
+              .toInt());
+      // we slightly alter the bullet angle. we are using a gaussian function
+      b.angle += exp(-pow((3 * b.speed - 3.5), 2)) / 10;
+      // we slightly alter the bullet speed. we are using a linear function
+      b.speed -= (b.speed - 0.1) / 90;
+    }
+  }
+
+  bool _isBulletOutside(Bullet b) {
+    return !_scene.dimensions.containsPoint(b.position);
   }
 }

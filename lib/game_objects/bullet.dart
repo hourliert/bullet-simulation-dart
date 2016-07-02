@@ -6,21 +6,19 @@ class Bullet {
 
   int id;
 
-  num initialX;
-  num initialY;
+  Point<int> initialPosition;
+  Point<int> position;
+
   num initialSpeed;
   num initialAngle;
 
-  num x;
-  num y;
   num speed;
   num angle;
 
-  Bullet(num x, num y) {
-    this.id = nextId++;
+  Bullet(int x, int y) {
+    id = nextId++;
 
-    this.initialX = x;
-    this.initialY = y;
+    initialPosition = new Point<int>(x, y);
     this.initialSpeed = (rng.nextDouble() * 0.5) + 0.5;
     this.initialAngle = rng.nextDouble() * 2 * PI;
 
@@ -32,15 +30,14 @@ class Bullet {
     return '''
       === Bullet ===
       Id: $id
-      Pos: $x, $y
+      Pos: $position
       Velocity: $speed
       Angle: $angle
     ''';
   }
 
   void _copyInitial() {
-    this.x = this.initialX;
-    this.y = this.initialY;
+    position = new Point<int>(initialPosition.x, initialPosition.y);
     this.speed = this.initialSpeed;
     this.angle = this.initialAngle;
   }

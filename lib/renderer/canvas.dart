@@ -35,8 +35,12 @@ class CanvasRenderer implements Renderer {
   @override
   void renderBullet(Bullet b) {
     _ctx.beginPath();
-    _ctx.arc(b.x - Renderer.bullet_radius, b.y - Renderer.bullet_radius,
-        Renderer.bullet_radius, 0, 2 * PI);
+    _ctx.arc(
+        b.position.x - Renderer.bullet_radius,
+        b.position.y - Renderer.bullet_radius,
+        Renderer.bullet_radius,
+        0,
+        2 * PI);
     _ctx.fillStyle = Renderer.bullet_color;
     _ctx.fill();
   }
