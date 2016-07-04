@@ -36,8 +36,8 @@ class CanvasRenderer implements Renderer {
   void renderBullet(Bullet b) {
     _ctx.beginPath();
     _ctx.arc(
-        b.position.x - Renderer.bullet_radius,
-        b.position.y - Renderer.bullet_radius,
+        b.position.x - Renderer.bullet_radius / 2,
+        b.position.y - Renderer.bullet_radius / 2,
         Renderer.bullet_radius,
         0,
         2 * PI);
