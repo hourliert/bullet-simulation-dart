@@ -5,12 +5,14 @@ import 'package:bullet_simulation/renderer/renderer.dart';
 import 'package:bullet_simulation/renderer/canvas.dart';
 import 'package:bullet_simulation/physic/engine.dart';
 import 'package:bullet_simulation/ui/popups_manager.dart';
+import 'package:bullet_simulation/game_objects/bullet.dart';
 
 class Game {
   static Game _instance;
 
   DivElement _playground;
   DivElement _popupsContainer;
+
   Scene _scene;
   Renderer _renderer;
   PhysicEngine _engine;
@@ -36,8 +38,15 @@ class Game {
     _renderer = new CanvasRenderer(_scene);
     _engine = new PhysicEngine(_scene);
 
+    _engine.onBulletHitBorder.listen(_onHitBulletHitBorder);
+
     //render loop
     window.requestAnimationFrame(_gameLoop);
+  }
+
+  void _onHitBulletHitBorder(Bullet b) {
+    _popupsManager.addPopup(b);
+    _scene.removeBullet(b);
   }
 
   void _gameLoop(num _) {

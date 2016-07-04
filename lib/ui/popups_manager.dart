@@ -1,11 +1,10 @@
 import 'dart:html';
 import 'dart:async';
-import 'dart:math';
 
 import 'package:bullet_simulation/game_objects/bullet.dart';
 
 class PopupsManager {
-  static const Duration POPUP_DURATION = const Duration(seconds: 4);
+  static const Duration POPUP_DURATION = const Duration(seconds: 1);
 
   DivElement _popupsContainer;
 

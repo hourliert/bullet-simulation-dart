@@ -1,12 +1,19 @@
 import 'dart:math';
+import 'dart:async';
 
 import 'package:bullet_simulation/scene/scene.dart';
 import 'package:bullet_simulation/game_objects/bullet.dart';
 
 class PhysicEngine {
-  Scene _scene;
+  Stream<Bullet> onBulletHitBorder;
 
-  PhysicEngine(this._scene);
+  Scene _scene;
+  StreamController<Bullet> _controller;
+
+  PhysicEngine(this._scene) {
+    _controller = new StreamController<Bullet>();
+    onBulletHitBorder = _controller.stream;
+  }
 
   void nextPositions(Duration timeBudget) {
     _scene.bullets.forEach((Bullet b) {
@@ -16,13 +23,11 @@ class PhysicEngine {
 
   void _nextBulletPosition(Bullet b, Duration timeBudget) {
     if (_isBulletOutside(b)) {
-      print('bullet outside');
+      _controller.add(b);
     } else {
-      b.position = new Point<int>(
-          (b.position.x + b.speed * timeBudget.inMilliseconds * cos(b.angle))
-              .toInt(),
-          (b.position.y + b.speed * timeBudget.inMilliseconds * sin(b.angle))
-              .toInt());
+      b.position += new Point<int>(
+          (b.speed * timeBudget.inMilliseconds * cos(b.angle)).toInt(),
+          (b.speed * timeBudget.inMilliseconds * sin(b.angle)).toInt());
       // we slightly alter the bullet angle. we are using a gaussian function
       b.angle += exp(-pow((3 * b.speed - 3.5), 2)) / 10;
       // we slightly alter the bullet speed. we are using a linear function
