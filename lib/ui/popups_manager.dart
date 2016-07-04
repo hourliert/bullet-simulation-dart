@@ -4,7 +4,7 @@ import 'dart:async';
 import 'package:bullet_simulation/game_objects/bullet.dart';
 
 class PopupsManager {
-  static const Duration POPUP_DURATION = const Duration(seconds: 1);
+  static const Duration popup_duration = const Duration(seconds: 1);
 
   DivElement _popupsContainer;
 
@@ -17,7 +17,7 @@ class PopupsManager {
 
     _popupsContainer.append(popup);
 
-    new Future.delayed(POPUP_DURATION, () {
+    new Future.delayed(popup_duration, () {
       popup.remove();
     });
   }

@@ -1,22 +1,25 @@
 import 'dart:math';
 import 'dart:async';
 
-import 'package:bullet_simulation/scene/scene.dart';
+import 'package:bullet_simulation/models/bullet_store.dart';
+import 'package:bullet_simulation/models/scene.dart';
 import 'package:bullet_simulation/game_objects/bullet.dart';
 
 class PhysicEngine {
   Stream<Bullet> onBulletHitBorder;
 
+  BulletStore _store;
   Scene _scene;
   StreamController<Bullet> _controller;
 
-  PhysicEngine(this._scene) {
+  PhysicEngine(this._store, this._scene) {
     _controller = new StreamController<Bullet>();
+
     onBulletHitBorder = _controller.stream;
   }
 
   void nextPositions(Duration timeBudget) {
-    _scene.bullets.forEach((Bullet b) {
+    _store.bullets.forEach((Bullet b) {
       _nextBulletPosition(b, timeBudget);
     });
   }
