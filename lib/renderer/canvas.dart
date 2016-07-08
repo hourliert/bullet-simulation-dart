@@ -32,8 +32,12 @@ class CanvasRenderer implements Renderer {
 
   @override
   void render() {
-    _ctx.clearRect(0, 0, _canvas.width, _canvas.height);
+    _clearRenderer();
     _store.bullets.forEach(_renderBullet);
+  }
+
+  void _clearRenderer() {
+    _ctx.clearRect(0, 0, _canvas.width, _canvas.height);
   }
 
   void _renderBullet(Bullet b) {
