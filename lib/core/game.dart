@@ -8,6 +8,7 @@ import 'package:bullet_simulation/physic/engine.dart';
 import 'package:bullet_simulation/ui/popups_manager.dart';
 import 'package:bullet_simulation/game_objects/bullet.dart';
 
+/// Represents a 2D bullet simulation game
 class Game {
   DivElement _playground;
   DivElement _popupsContainer;
@@ -19,6 +20,15 @@ class Game {
   PopupsManager _popupsManager;
   DateTime _lastFrameTime;
 
+  /// Creates a bullet simulation game
+  ///
+  /// 2 [DivElement] should be injected into it.
+  ///
+  /// The first is the playground container.
+  /// It will be used to setup the dom and render the game.
+  ///
+  /// The second is the popup container.
+  /// It will be used to display short popups during the game.
   Game(this._playground, this._popupsContainer) {
     _lastFrameTime = new DateTime.now();
 
@@ -30,14 +40,18 @@ class Game {
     _engine = new PhysicEngine(_store, _scene);
   }
 
+  /// Initializes the game.
+  ///
+  /// It initializes sub-component and subscribes to streams.
   void initialize() {
+    _renderer.initialize();
+
     _playground.onClick.listen(_fireBullet);
     _engine.onBulletHitBorder.listen(_onHitBulletHitBorder);
     window.onResize.listen(_resizeGame);
-
-    _renderer.initialize();
   }
 
+  /// Computes and renders one game step.
   void loop([num _]) {
     DateTime now = new DateTime.now();
     Duration timeBudget = now.difference(_lastFrameTime);
@@ -50,18 +64,16 @@ class Game {
   }
 
   void _fireBullet(MouseEvent e) {
-    _store.addBullet(new Bullet(e.client.x, e.client.y));
+    _store.add(new Bullet(e.client.x, e.client.y));
   }
 
   void _onHitBulletHitBorder(Bullet b) {
     _popupsManager.addPopup(b);
-    _store.removeBullet(b);
+    _store.remove(b);
   }
 
   void _resizeGame([Event _]) {
-    Rectangle<int> rect = new Rectangle<int>(
-        0, 0, _playground.offsetWidth, _playground.offsetHeight);
-
-    _scene.updateScene(rect);
+    _scene.updateScene(new Rectangle<int>(
+        0, 0, _playground.offsetWidth, _playground.offsetHeight));
   }
 }

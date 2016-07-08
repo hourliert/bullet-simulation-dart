@@ -1,17 +1,24 @@
 import 'package:bullet_simulation/game_objects/bullet.dart';
 
+/// Represents a bullet container
 class BulletStore {
-  List<Bullet> bullets;
+  List<Bullet> _bullets;
 
+  /// Creates an empty bullet store
   BulletStore() {
-    bullets = [];
+    _bullets = new List<Bullet>();
   }
 
-  void addBullet(Bullet b) {
-    bullets.add(b);
+  /// Gets the bullet list
+  List<Bullet> get bullets => _bullets;
+
+  /// Adds a bullet to the store
+  void add(Bullet b) {
+    _bullets.add(b);
   }
 
-  void removeBullet(Bullet b) {
-    bullets.remove(b);
+  /// Removes the specified bullet from the store
+  void remove(Bullet b) {
+    _bullets.remove(b);
   }
 }

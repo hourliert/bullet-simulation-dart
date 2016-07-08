@@ -1,10 +1,16 @@
-import 'package:bullet_simulation/game_objects/bullet.dart';
-
+/// A base class for representing a 2D game renderer
 abstract class Renderer {
-  static const int bullet_radius = 4;
-  static const String bullet_color = 'red';
+  /// bullet radius
+  static const int bulletRadius = 4;
 
+  /// The bullet color
+  static const String bulletColor = 'red';
+
+  /// Initializes the renderer.
+  ///
+  /// It setups the DOM and subscribe to streams
   void initialize();
+
+  /// Renders one step of the game
   void render();
-  void renderBullet(Bullet b);
 }

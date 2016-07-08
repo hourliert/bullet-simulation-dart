@@ -1,24 +1,42 @@
 import 'dart:math';
 import 'dart:async';
 
+/// Represents the game scene
+///
+/// It has a dimensions and can notify other when it has be resized
 class Scene {
-  Rectangle<int> dimensions;
-  Stream<Scene> onResize;
+  Rectangle<int> _dimensions;
+  StreamController<Scene> _onResizeStreamController;
 
-  StreamController<Scene> _onResizeController;
-
+  /// Creates a new scene with a specified size
+  ///
+  /// [width] and [height] must be both positive integer
   Scene(int width, int height) {
-    dimensions = new Rectangle<int>(0, 0, width, height);
-    _onResizeController = new StreamController<Scene>();
-    onResize = _onResizeController.stream;
+    assert(width > 0);
+    assert(height > 0);
+
+    _dimensions = new Rectangle<int>(0, 0, width, height);
+    _onResizeStreamController = new StreamController<Scene>();
   }
 
-  get width => dimensions.width;
-  get height => dimensions.height;
+  /// The stream that represents a scene size change
+  Stream<Scene> get onResize => _onResizeStreamController.stream;
 
+  /// The width of the scene
+  int get width => _dimensions.width;
+
+  /// The height of the scene
+  int get height => _dimensions.height;
+
+  /// Updates the scene size
+  /// It broadcasts this change through the stream [onResize]
   void updateScene(Rectangle<int> rect) {
-    dimensions = rect;
+    _dimensions = rect;
+    _onResizeStreamController.add(this);
+  }
 
-    _onResizeController.add(this);
+  /// Determines if a point is contained in the scene
+  bool containPoints(Point<int> p) {
+    return _dimensions.containsPoint(p);
   }
 }
