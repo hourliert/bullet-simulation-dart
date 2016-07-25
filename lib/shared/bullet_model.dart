@@ -26,10 +26,16 @@ class Bullet {
   /// The current angle
   num angle;
 
+  int radius;
+  String color;
+
   /// Creates a new bullet at a specific position
   ///
   /// [x] and [y] must be both positive integer
   Bullet(int x, int y) {
+    assert(x >= 0);
+    assert(y >= 0);
+
     id = _nextId++;
 
     initialPosition = new Point<int>(x, y);

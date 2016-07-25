@@ -1,0 +1,1 @@
+enum RendererType { CANVAS, SVG }
